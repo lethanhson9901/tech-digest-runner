@@ -1,0 +1,4 @@
+# Never commit real config
+config/config.yaml
+*.env
+.env*

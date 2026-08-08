@@ -1,0 +1,63 @@
+gmail:
+  email: "lethanhson9910@gmail.com"
+  email_app_password: "${GMAIL_APP_PASSWORD}"
+
+custom_llm:
+  temperature: 0.1
+  providers:
+    - name: "a2"
+      api_key: "${AICLIENT2API_KEY}"
+      model_id: "gemini-2.5-flash"
+      base_url: "${AICLIENT2API_URL}"
+      max_tokens: 50000
+      timeout: 300
+      structured_output_mode: "tool_calling"
+      concurrent_requests: 5
+      delay_between_requests: 1.0
+      requests_per_minute: 30
+  retry:
+    max_attempts: 3
+    delay: 10
+    max_retry_delay: 30
+  rate_limits:
+    requests_per_minute: 30
+    reset_window: 60
+    concurrent_requests: 5
+    delay_between_requests: 1.0
+
+storage:
+  base_path: "../data/{date}"
+  mongo_db_uri: "${MONGODB_URI}"
+
+hackernews:
+  max_stories: 30
+  min_points: 100
+  max_comments_per_story: 10
+  rate_limit_delay: 0.1
+  window_hours: 24
+
+product_hunt:
+  developer_token: "${PRODUCTHUNT_TOKEN}"
+  max_products: 30
+  rate_limit_delay: 4.0
+  retry_attempts: 3
+  timeout: 30
+
+weekly_tech_magazine:
+  repository: "ruanyf/weekly"
+  branch: "master"
+  output_directory: "weekly_translations"
+  translation:
+    model: "gemini-2.5-flash"
+    base_url: "${AICLIENT2API_URL}"
+    api_key: "${AICLIENT2API_KEY}"
+    temperature: 0.1
+    top_p: 0.9
+    top_k: 40
+    max_tokens: 16000
+  rate_limits:
+    max_calls_per_minute: 15
+    period_seconds: 60.0
+    max_workers: 8
+  github_token: "${RUANYF_GITHUB_TOKEN}"
+  log_level: "INFO"

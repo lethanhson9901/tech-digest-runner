@@ -1,0 +1,35 @@
+name: Weekly Ruanyf
+
+on:
+  schedule:
+    - cron: "0 0 * * 0"
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate config
+        env:
+          AICLIENT2API_URL: ${{ secrets.AICLIENT2API_URL }}
+          AICLIENT2API_KEY: ${{ secrets.AICLIENT2API_KEY }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN }}
+          RUANYF_GITHUB_TOKEN: ${{ secrets.RUANYF_GITHUB_TOKEN }}
+        run: |
+          mkdir -p /tmp/td-config
+          envsubst < config/config.template.yaml > /tmp/td-config/config.yaml
+
+      - name: Run weekly-ruanyf workflow
+        run: |
+          docker run --rm \
+            -v /tmp/td-config:/app/config:ro \
+            sonlt173346hust/tech-digest-workflow:latest \
+            --weekly-tech-only \
+            --llm-provider custom_llm \
+            --max-workers 5 \
+            --cleanup-days 30
