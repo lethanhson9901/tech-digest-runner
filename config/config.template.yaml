@@ -1,5 +1,5 @@
 gmail:
-  email: "lethanhson9910@gmail.com"
+  email: "lethanhson9901@gmail.com"
   email_app_password: "${GMAIL_APP_PASSWORD}"
 
 custom_llm:
@@ -49,8 +49,6 @@ weekly_tech_magazine:
   output_directory: "weekly_translations"
   translation:
     model: "gemini-2.5-flash"
-    base_url: "${AICLIENT2API_URL}"
-    api_key: "${AICLIENT2API_KEY}"
     temperature: 0.1
     top_p: 0.9
     top_k: 40

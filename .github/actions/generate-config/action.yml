@@ -1,0 +1,35 @@
+name: Generate config
+description: Substitute secrets into config.template.yaml and write to /tmp/td-config/config.yaml
+
+inputs:
+  aiclient2api_url:
+    required: true
+  aiclient2api_key:
+    required: true
+  mongodb_uri:
+    required: true
+  gmail_app_password:
+    required: false
+    default: ''
+  producthunt_token:
+    required: false
+    default: ''
+  ruanyf_github_token:
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: Write config
+      shell: bash
+      env:
+        AICLIENT2API_URL: ${{ inputs.aiclient2api_url }}
+        AICLIENT2API_KEY: ${{ inputs.aiclient2api_key }}
+        MONGODB_URI: ${{ inputs.mongodb_uri }}
+        GMAIL_APP_PASSWORD: ${{ inputs.gmail_app_password }}
+        PRODUCTHUNT_TOKEN: ${{ inputs.producthunt_token }}
+        RUANYF_GITHUB_TOKEN: ${{ inputs.ruanyf_github_token }}
+      run: |
+        mkdir -p /tmp/td-config
+        envsubst < "${{ github.workspace }}/config/config.template.yaml" > /tmp/td-config/config.yaml

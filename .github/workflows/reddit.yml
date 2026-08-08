@@ -10,19 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 180
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - name: Generate config
-        env:
-          AICLIENT2API_URL: ${{ secrets.AICLIENT2API_URL }}
-          AICLIENT2API_KEY: ${{ secrets.AICLIENT2API_KEY }}
-          MONGODB_URI: ${{ secrets.MONGODB_URI }}
-          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN }}
-          RUANYF_GITHUB_TOKEN: ${{ secrets.RUANYF_GITHUB_TOKEN }}
-        run: |
-          mkdir -p /tmp/td-config
-          envsubst < config/config.template.yaml > /tmp/td-config/config.yaml
+      - uses: ./.github/actions/generate-config
+        with:
+          aiclient2api_url: ${{ secrets.AICLIENT2API_URL }}
+          aiclient2api_key: ${{ secrets.AICLIENT2API_KEY }}
+          mongodb_uri: ${{ secrets.MONGODB_URI }}
 
       - name: Clone reddit data
         run: |
