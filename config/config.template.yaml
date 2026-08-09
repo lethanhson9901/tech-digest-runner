@@ -7,7 +7,7 @@ custom_llm:
   providers:
     - name: "a2"
       api_key: "${AICLIENT2API_KEY}"
-      model_id: "gemini-2.5-flash"
+      model_id: "gemini-3.5-flash"
       base_url: "${AICLIENT2API_URL}"
       max_tokens: 50000
       timeout: 300
@@ -48,7 +48,7 @@ weekly_tech_magazine:
   branch: "master"
   output_directory: "weekly_translations"
   translation:
-    model: "gemini-2.5-flash"
+    model: "gemini-3.5-flash"
     temperature: 0.1
     top_p: 0.9
     top_k: 40
