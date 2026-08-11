@@ -1,5 +1,5 @@
 gmail:
-  email: "lethanhson9901@gmail.com"
+  email: "lethanhson9910@gmail.com"
   email_app_password: "${GMAIL_APP_PASSWORD}"
 
 custom_llm:
