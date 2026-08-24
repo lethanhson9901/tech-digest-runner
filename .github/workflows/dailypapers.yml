@@ -39,7 +39,7 @@ jobs:
           
           docker run --rm \
             -v /tmp/td-config:/app/config:ro \
-            sonlt173346hust/tech-digest-workflow@sha256:a007ef837fcf1c13b9ce91b67e661b3dad69407820e3b6265c1fe2215d01e8d4 \
+            sonlt173346hust/tech-digest-workflow@sha256:364116d0a652880c371509fc0c32c8bf21e630a55d2d7913ed314747530a2d15 \
             --dailypapers-only \
             --dailypapers-max-papers ${MAX_PAPERS} \
             ${DATE_ARG} \
