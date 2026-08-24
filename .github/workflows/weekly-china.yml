@@ -22,7 +22,7 @@ jobs:
         run: |
           docker run --rm \
             -v /tmp/td-config:/app/config:ro \
-            sonlt173346hust/tech-digest-workflow@sha256:69e1e216b6a47da79820757219e43e520962fb69f441ec361cea751cb5c33d1c \
+            sonlt173346hust/tech-digest-workflow@sha256:a007ef837fcf1c13b9ce91b67e661b3dad69407820e3b6265c1fe2215d01e8d4 \
             --ai-news-only \
             --llm-provider custom_llm \
             --max-workers 5
