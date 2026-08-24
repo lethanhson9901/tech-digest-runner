@@ -1,0 +1,47 @@
+name: Daily Papers
+
+on:
+  schedule:
+    - cron: "0 21 * * *"  # 21:00 UTC = 04:00 AM Vietnam
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Date to fetch papers (YYYY-MM-DD)'
+        required: false
+        type: string
+      max_papers:
+        description: 'Maximum papers to process'
+        required: false
+        default: '30'
+        type: string
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: ./.github/actions/generate-config
+        with:
+          aiclient2api_url: ${{ secrets.AICLIENT2API_URL }}
+          aiclient2api_key: ${{ secrets.AICLIENT2API_KEY }}
+          mongodb_uri: ${{ secrets.MONGODB_URI }}
+
+      - name: Run dailypapers workflow
+        run: |
+          DATE_ARG=""
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            DATE_ARG="--dailypapers-date ${{ github.event.inputs.date }}"
+          fi
+          
+          MAX_PAPERS="${{ github.event.inputs.max_papers || '30' }}"
+          
+          docker run --rm \
+            -v /tmp/td-config:/app/config:ro \
+            sonlt173346hust/tech-digest-workflow@sha256:69e1e216b6a47da79820757219e43e520962fb69f441ec361cea751cb5c33d1c \
+            --dailypapers-only \
+            --dailypapers-max-papers ${MAX_PAPERS} \
+            ${DATE_ARG} \
+            --llm-provider custom_llm \
+            --max-workers 5

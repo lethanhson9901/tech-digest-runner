@@ -27,7 +27,7 @@ jobs:
           docker run --rm \
             -v /tmp/td-config:/app/config:ro \
             -v /tmp/td-data:/app/data \
-            sonlt173346hust/tech-digest-workflow@sha256:06e5c54387c1c4be0947b0bfad4f890270a205544613488e112be0f3f40f8b33 \
+            sonlt173346hust/tech-digest-workflow@sha256:69e1e216b6a47da79820757219e43e520962fb69f441ec361cea751cb5c33d1c \
             --reddit-only \
             --reddit-source /app/data/repo-dashboard/src/data/reddit/community_news \
             --max-subreddits 100 \
