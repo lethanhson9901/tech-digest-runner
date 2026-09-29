@@ -1,0 +1,30 @@
+name: Engineering Blogs Daily
+
+on:
+  schedule:
+    - cron: "0 3 * * *"  # 03:00 UTC = 10:00 AM Vietnam
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: ./.github/actions/generate-config
+        with:
+          aiclient2api_url: ${{ secrets.AICLIENT2API_URL }}
+          aiclient2api_key: ${{ secrets.AICLIENT2API_KEY }}
+          mongodb_uri: ${{ secrets.MONGODB_URI }}
+
+      - name: Run engineering-blogs workflow
+        # Scrape-only (no LLM). Requires image built from backend commit that
+        # includes --engineering-blogs-only (>= f533b66). Update the digest below
+        # to the newly built image before enabling this schedule.
+        run: |
+          docker run --rm \
+            -v /tmp/td-config:/app/config:ro \
+            sonlt173346hust/tech-digest-workflow@sha256:8d888f0c7cbb0ddf7b5249f312c5b1e318628be666ff16ae1f3f71bee4677e75 \
+            --engineering-blogs-only \
+            --cleanup-days 30
